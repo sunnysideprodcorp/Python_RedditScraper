@@ -11,7 +11,7 @@ from redditconfig import *
 
 #set up database and reddit connections
 with MongoDB(db = DB_NAME, collection = COLLECTION_NAME) as db:
-    with RedditWrapper("front_page") as r:
+    with RedditWrapper(SUBREDDIT_NAME) as r:
 
         # scrape according to params in redditconfig
         threads = r.get_threads()
@@ -19,7 +19,7 @@ with MongoDB(db = DB_NAME, collection = COLLECTION_NAME) as db:
         # iterate through each thread, get more details, insert into database
         filter_doc = {"time_recorded" : calendar.timegm(time.gmtime())}
         list_ids = []       
-        with futures.ThreadPoolExecutor(max_workers=1) as executor:
+        with futures.ThreadPoolExecutor(max_workers=2) as executor:
             for t in executor.map(r.general_processing, threads):
                 update_doc = {'$push':{"thread_list":t}}
                 list_ids.append(t['id_num'])                
