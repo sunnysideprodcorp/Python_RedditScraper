@@ -14,7 +14,7 @@ def get_dict_if_exists(obj):
 class RedditThread:
     """Represents the minimum information saved from a Reddist post"""
 
-    # attributes to exclude from class dictionary representation
+    # attributes to exclude from dictionary representation
     EXCLUDE = ("dictionary_representation", "dict", "reddit_conn")
     
     def __init__(self, post, flat_comments):       
@@ -38,7 +38,7 @@ class RedditThread:
 class RedditThreadDetailed(RedditThread):
     """Adds information about comments and users making those comments to base class RedditThread"""
 
-    # attributes to exclude from class dictionary representation
+    # attributes to exclude from dictionary representation
     EXCLUDE = ("dictionary_representation", "dict", "reddit_conn")
 
     def __init__(self, thread, flat_comments,  reddit_conn):
@@ -82,7 +82,7 @@ class User:
     """Convenient wrapper to convert praw user to dictionary.
     Holds and retrieves user name, comments, and posts."""
 
-    # attributes to exclude from class dictionary representation    
+    # attributes to exclude from dictionary representation    
     EXCLUDE = ("dictionary_representation", "dict", "reddit_conn")
 
     def __init__(self, reddit_conn, username):
@@ -118,7 +118,7 @@ class User:
 class Comment:
     """Convenient wrapper to convert praw comment to dictionary."""
 
-    # attributes to exclude from class dictionary representation
+    # attributes to exclude from dictionary representation
     EXCLUDE = ("dictionary_representation", "dict", "reddit_conn")
     
     def __init__(self, time, ups, subreddit):

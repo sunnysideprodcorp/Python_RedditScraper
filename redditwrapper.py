@@ -12,6 +12,7 @@ class RedditWrapper(object):
     def __init__(self, where_scrape):      
         self.reddit_conn = self.reddit_conn or  praw.Reddit(user_agent=where_scrape+"sunnysideworks.nyc")
         self.where_scrape = where_scrape
+
     def __enter__(self, *args):
         return self
 
@@ -24,6 +25,12 @@ class RedditWrapper(object):
         else:
             return self.reddit_conn.get_subreddit(sys.argv[2]).get_hot(limit=SUBREDDIT_LIMIT)
 
+    def get_user_comments(self, username):
+        return self.reddit_conn.get_redditor(username).get_comments(limit=COMMENT_LIMIT)
+
+    def get_user_submissions(self, username):
+        return self.reddit_conn.get_redditor(username).get_submitted(limit=COMMENT_LIMIT)
+
     def general_processing(self, thread):
         try:
             flat_comments = praw.helpers.flatten_tree(thread.comments)
@@ -34,8 +41,3 @@ class RedditWrapper(object):
             thread_details.get_comments_and_commenters()
             return thread_details.dictionary_representation()
 
-    def get_user_comments(self, username):
-        return self.reddit_conn.get_redditor(username).get_comments(limit=COMMENT_LIMIT)
-
-    def get_user_submissions(self, username):
-        return self.reddit_conn.get_redditor(username).get_submitted(limit=COMMENT_LIMIT)
