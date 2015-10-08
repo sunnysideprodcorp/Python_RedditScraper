@@ -33,7 +33,7 @@ class RedditWrapper(object):
         else:
             thread_details = RedditThreadDetailed( thread, flat_comments[:COMMENT_LIMIT], self)
             thread_details.get_comments_info()
-            return thread_details.getDict()
+            return thread_details.dictionaryRepresentation()
 
     def get_user_comments(self, username):
         return self.praw_object.get_redditor(username).get_comments(limit=COMMENT_LIMIT)
