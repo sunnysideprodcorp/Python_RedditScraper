@@ -23,7 +23,7 @@ class RedditWrapper(object):
         if self.where_scrape == "front_page":
             return self.reddit_conn.get_front_page(limit=TOP_REDDIT_LIMIT)       
         else:
-            return self.reddit_conn.get_subreddit(sys.argv[2]).get_hot(limit=SUBREDDIT_LIMIT)
+            return self.reddit_conn.get_subreddit(self.where_scrape).get_hot(limit=SUBREDDIT_LIMIT)
 
     def get_user_comments(self, username):
         return self.reddit_conn.get_redditor(username).get_comments(limit=COMMENT_LIMIT)

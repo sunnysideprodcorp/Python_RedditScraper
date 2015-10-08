@@ -1,6 +1,7 @@
 
 DB_NAME = "reddit"
 COLLECTION_NAME = "demo_collection"
+SUBREDDIT_NAME = "askreddit"
 
 COMMENT_LIMIT = 2
 TOP_REDDIT_LIMIT = 2
