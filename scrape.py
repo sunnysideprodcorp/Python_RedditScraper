@@ -13,13 +13,13 @@ from redditconfig import *
 with MongoDB(db = DB_NAME, collection = COLLECTION_NAME) as db:
     with RedditWrapper("front_page") as r:
 
-        threads = r.getThreads()
+        threads = r.get_threads()
         
         filter_doc = {"time_recorded" : calendar.timegm(time.gmtime())}
         list_ids = []
         
         with futures.ThreadPoolExecutor(max_workers=1) as executor:
-            for t in executor.map(r.map_func, threads):
+            for t in executor.map(r.general_processing, threads):
                 print("in scrape.py")
                 print(t)
                 update_doc = {'$push':{"thread_list":t}}

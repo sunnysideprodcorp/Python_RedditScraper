@@ -16,7 +16,6 @@ class MongoDB(object):
         self.collection = MongoDB.client[db][collection]
         MongoDB.num_users += 1
 
-
     def __enter__(self, *args):
         return self
 
@@ -32,8 +31,8 @@ class MongoDB(object):
         else:
             return getattr(self, attr)
 
-def main():
 
+def main():
     with MongoDB(db = "db1", collection = "c1") as m: 
         print(m.count())
         m.update({"jello":5} , {"hello":"you"}, upsert = True)

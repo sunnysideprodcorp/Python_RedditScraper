@@ -1,7 +1,7 @@
 import time
 from redditconfig import *
 
-def getDictIfExists(obj):
+def get_dict_if_exists(obj):
     """Helper function for classes returning a dictionary representation
     for all properties"""
     try:
@@ -14,7 +14,7 @@ def getDictIfExists(obj):
 class RedditThread:
     """Represents the minimum information saved from a Reddist post"""
 
-    EXCLUDE = ("dictionaryRepresentation", "dict", "praw_object")
+    EXCLUDE = ("dictionary_representation", "dict", "praw_object")
     
     def __init__(self, post, flat_comments):
         
@@ -29,11 +29,11 @@ class RedditThread:
     def __str__(self):
         return "class RedditThread Title: %s Subreddit: %s"%(self.title, self.subreddit)
 
-
-    def dictionaryRepresentation(self):
-        return {key: getDictIfExists(val)
+    def dictionary_representation(self):
+        return {key: get_dict_if_exists(val)
                 for key, val in self.__dict__.items()
                 if key not in self.EXCLUDE}
+
     
 class RedditThreadDetailed(RedditThread):
     """Adds information about comments and users making those comments to base class RedditThread"""
@@ -55,7 +55,7 @@ class RedditThreadDetailed(RedditThread):
                     except:
                         pass
                     else:
-                        user_list.append(userObject.dictionaryRepresentation())
+                        user_list.append(userObject.dictionary_representation())
                         comment_list.append(comment.body)
 
         self.users  = user_list
@@ -65,8 +65,8 @@ class RedditThreadDetailed(RedditThread):
         return "class RedditThread Title: %s Subreddit: %s First User Listed:%s"% \
             (self.title, self.subreddit, self.users[0].username)
 
-    def dictionaryRepresentation(self):
-        return {key: getDictIfExists(val)
+    def dictionary_representation(self):
+        return {key: get_dict_if_exists(val)
                 for key, val in self.__dict__.items()
                 if key not in self.EXCLUDE}
 
@@ -76,7 +76,7 @@ class User:
 
     Holds and retrieves user name, comments, and posts."""
     
-    EXCLUDE = ("dictionaryRepresentation", "dict", "praw_object")
+    EXCLUDE = ("dictionary_representation", "dict", "praw_object")
 
     def __init__(self, praw_object, username):
         self.username = username
@@ -85,8 +85,8 @@ class User:
     def __str__(self):
         return "class User, name is %s"%self.username
 
-    def dictionaryRepresentation(self):
-        return {key: getDictIfExists(val)
+    def dictionary_representation(self):
+        return {key: get_dict_if_exists(val)
                 for key, val in self.__dict__.items()
                 if key not in self.EXCLUDE}
     
@@ -99,19 +99,19 @@ class User:
         comments = self.praw_object.get_user_comments(self.username)
         for c in comments:
             subreddit_name = getattr(c.subreddit, 'display_name', c.subreddit)
-            self.comments.append(Comment(c.created_utc, c.ups, subreddit_name).dictionaryRepresentation())
+            self.comments.append(Comment(c.created_utc, c.ups, subreddit_name).dictionary_representation())
        
     def get_posts(self):
         self.threads =  []
         threads = self.praw_object.get_user_submissions(self.username)
         for s in threads:
-            self.threads.append(RedditThread(s, []).dictionaryRepresentation())
+            self.threads.append(RedditThread(s, []).dictionary_representation())
 
 
 class Comment:
     """Convenient wrapper to convert praw comment to dictionary."""
 
-    EXCLUDE = ("dictionaryRepresentation", "dict", "praw_object")
+    EXCLUDE = ("dictionary_representation", "dict", "praw_object")
     
     def __init__(self, time, ups, subreddit):
         self.time = time
@@ -121,8 +121,8 @@ class Comment:
     def __str__(self):
         return "class Comment, votes: %d, subreddit: %s, posted at: %d"%(self.ups, self.subreddit, self.time)
 
-    def dictionaryRepresentation(self):
-        return {key: getDictIfExists(val)
+    def dictionary_representation(self):
+        return {key: get_dict_if_exists(val)
                 for key, val in self.__dict__.items()
                 if key not in self.EXCLUDE}
 
